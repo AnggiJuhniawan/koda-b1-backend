@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:5231
+
+GET {{baseUrl}}/weatherforecast/
+Accept: application/json
+
+### Get Product All
+GET {{baseUrl}}/api/v1/products
+Accept: application/json
+
+### Get Product By Code
+GET {{baseUrl}}/api/v1/products/PC001
+Accept: application/json
+
+### POST Product
+POST {{baseUrl}}/api/v1/products
+Accept: application/json
+
+{
+    "productCode": "PR001",
+    "name": "Keyboard",
+    "price": 30000,
+    "stock": 15,
+    "category": "Elektronik"
+}
+
+### Delete Product
+DELETE {{baseUrl}}/api/v1/products/PR001
+Accept: application/json
