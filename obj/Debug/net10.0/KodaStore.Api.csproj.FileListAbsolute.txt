@@ -31,3 +31,4 @@ C:\Users\User01\Documents\_DATA D\Batch 1\Example\WEEK 4\WEEK 4\DOTNET2\src\Koda
 C:\Users\User01\Documents\_DATA D\Batch 1\Example\WEEK 4\WEEK 4\DOTNET2\src\KodaStore.Api\obj\Debug\net10.0\KodaStore.Api.pdb
 C:\Users\User01\Documents\_DATA D\Batch 1\Example\WEEK 4\WEEK 4\DOTNET2\src\KodaStore.Api\obj\Debug\net10.0\KodaStore.Api.genruntimeconfig.cache
 C:\Users\User01\Documents\_DATA D\Batch 1\Example\WEEK 4\WEEK 4\DOTNET2\src\KodaStore.Api\obj\Debug\net10.0\ref\KodaStore.Api.dll
+C:\Users\User01\Documents\_DATA D\Batch 1\Example\WEEK 4\WEEK 4\DOTNET2\src\KodaStore.Api\obj\Debug\net10.0\KodaStore.Api.sourcelink.json

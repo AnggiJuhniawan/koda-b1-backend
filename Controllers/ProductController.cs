@@ -46,5 +46,90 @@ public sealed class ProductController : ControllerBase
         }
         return Ok(ProductResponse.FromModel(product));
     }
+    // HTTPPOST
+    [HttpPost]
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public ActionResult<ProductResponse> Create([FromBody] ProductRequest request)
+    {
+        try
+        {
+            // Map DTO ke Model Internal
+            var product = new Product(request.ProductCode, request.Name, request.Price, request.Stock, request.Category);
 
+            // Simpan ke database/memory
+            _catalog.CreateProduct(product);
+
+            // Kembalikan response 201
+            return CreatedAtAction(
+                actionName: nameof(GetByCode),
+                routeValues: new { productCode = product.ProductCode },
+                value: ProductResponse.FromModel(product)
+            );
+        }
+        catch (ArgumentException e)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Invalid product data!",
+                detail: e.Message);
+        }
+    }
+
+    [HttpDelete("{productCode}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public IActionResult Delete([FromRoute] string productCode)
+    {
+        // Cek data
+        var product = _catalog.GetByCode(productCode);
+
+        if (product is null)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Product not found",
+                detail: $"No product was found for code {productCode}."
+            );
+        }
+        // Hapus Data
+        _catalog.Remove(productCode);
+
+        return NoContent();
+
+    }
+
+    [HttpPut("{productCode}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public ActionResult<ProductResponse> Update(
+        [FromRoute] string productCode, [FromBody] UpdateProductRequest request)
+    {
+        // cek product yg mau diupdate ada ga?
+        var exitingProduct = _catalog.GetByCode(productCode);
+
+        if (exitingProduct is null)
+        {
+            return Problem(statusCode: StatusCodes.Status404NotFound, title: "Product not found", detail: $"No product was found for code {productCode}.");
+        }
+
+        try
+        {
+            var updateProdek = new Product(productCode, request.Name, request.Price, request.Stock, request.Category);
+
+            // Simpan perubahan ke db/inMemory
+            _catalog.UpdateProduct(productCode, updateProdek);
+
+            // Kembalikan data update
+            return Ok(ProductResponse.FromModel(updateProdek));
+        }
+        catch (ArgumentException e)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Invalid product data!",
+                detail: e.Message);
+        }
+    }
 }
