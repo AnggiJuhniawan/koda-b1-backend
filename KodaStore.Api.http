@@ -24,6 +24,7 @@ Content-Type: application/json
     "category": "Elektronik"
 }
 
+### UPDATE DATA
 PUT {{baseUrl}}/api/v1/products/PR001
 Accept: application/json
 Content-Type: application/json
